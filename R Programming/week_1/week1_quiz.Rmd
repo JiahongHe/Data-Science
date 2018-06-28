@@ -1,0 +1,89 @@
+quiz 11
+read in the data and find the column names
+```{r}
+data = read.csv('dataset/hw1_data.csv')
+names(data)
+```
+
+quiz 12 
+Extract the first 2 rows of the data frame and print them to the console. 
+```{r}
+head(data, 2)
+```
+
+quiz 13
+How many observations (i.e. rows) are in this data frame?
+```{r}
+dims = dim(data)
+dims[1]
+```
+
+quiz 14 
+Extract the last 2 rows of the data frame and print them to the console. 
+```{r}
+tail(data, 2)
+```
+
+quiz 15
+What is the value of Ozone in the 47th row?
+```{r}
+data[47,]$Ozone
+# data[47, 'Ozone']
+```
+
+quiz 16
+How many missing values are in the Ozone column of this data frame?
+```{r}
+ozone = data$Ozone
+mask = is.na(ozone)
+length(ozone[mask])
+```
+
+quiz 17
+What is the mean of the Ozone column in this dataset? Exclude missing values (coded as NA) from this calculation.
+```{r}
+ozone_none_na = ozone[!mask]
+mean(ozone_none_na)
+```
+
+quiz 18
+Extract the subset of rows of the data frame where Ozone values are above 31 and Temp values are above 90. What is the mean of Solar.R in this subset?
+```{r}
+mask1 = data$Ozone > 31
+mask2 = data$Temp > 90
+mask = mask1 & mask2
+subset = data[mask, ]
+mask3 = !is.na(subset$Solar.R)
+mean(subset[mask3, ]$Solar.R)
+```
+
+quiz 19
+What is the mean of "Temp" when "Month" is equal to 6?
+```{r}
+mask = data$Month == 6
+subset = data[mask, ]
+mask = !is.na(subset$Temp)
+mean(subset[mask, ]$Temp)
+```
+
+quiz 20
+What was the maximum ozone value in the month of May (i.e. Month is equal to 5)?
+```{r}
+mask = data$Month == 5
+subset = data[mask, ]
+mask = !is.na(subset$Ozone)
+max(subset[mask, ]$Ozone)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+

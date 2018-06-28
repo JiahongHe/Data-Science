@@ -1,0 +1,75 @@
+quiz 1
+The American Community Survey distributes downloadable data about United States communities. Download the 2006 microdata survey about housing for the state of Idaho using download.file()
+How many properties are worth $1,000,000 or more?
+```{r}
+# download the csv file 
+
+if (!file.exists("./data/IdahoHousing.csv")){
+  file_url = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv"
+  dir.create("./data/")
+  download.file(url = file_url, destfile = "./data/IdahoHousing.csv")
+}
+data = read.csv("./data/IdahoHousing.csv")
+head(data) # raw inspection if the data
+head(data$VAL)
+dim(data)
+# from the code book we know that the value 24 in column "val" means .$1000000+
+expensive = subset(data, VAL == 24)
+head(expensive)
+nrow(expensive) # count the number of sliced data frame
+```
+```{r}
+
+``` 
+
+quiz 3
+Download the Excel spreadsheet on Natural Gas Aquisition Program
+```{r}
+# download the excel file 
+library(xlsx)
+if (!file.exists("./data/NaturalGasAquisition_b.xlsx")){
+  file_url = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FDATA.gov_NGAP.xlsx"
+  dir.create("./data/")
+  download.file(url = file_url, destfile = "./data/NaturalGasAquisition_b.xlsx", mode='wb')
+}
+dat = read.xlsx(file = "./data/NaturalGasAquisition_b.xlsx", sheetIndex = 1, rowIndex = 18:23, colIndex = 7:15)
+sum(dat$Zip*dat$Ext,na.rm=T)
+```
+
+quiz 4
+Read the XML data on Baltimore restaurants
+How many restaurants have zipcode 21231?
+```{r}
+library(XML)
+if (!file.exists("./data/BaltimoreRestaurant.xml")){
+  file_url = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
+  dir.create("./data/")
+  download.file(url = file_url, destfile = "./data/BaltimoreRestaurant.xml")
+}
+file_url = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
+doc = xmlTreeParse(sub("s", "", file_url), useInternal = TRUE)
+rootNode = xmlRoot(doc)
+xmlName(rootNode)
+names(rootNode)
+```
+
+```{r}
+zipcode = xpathSApply(rootNode, "//zipcode", xmlValue)
+zipcode = zipcode[zipcode == 21231]
+length(zipcode)
+```
+
+quiz 5
+Download the 2006 microdata survey about housing for the state of Idaho using download.file()
+using the fread() command load the data into an R object
+```{r}
+library(data.table)
+
+if (!file.exists("./data/IdahoHousing.csv")){
+  file_url = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv"
+  dir.create("./data/")
+  download.file(url = file_url, destfile = "./data/IdahoHousing.csv")
+}
+DT = fread("./data/IdahoHousing.csv")
+```
+

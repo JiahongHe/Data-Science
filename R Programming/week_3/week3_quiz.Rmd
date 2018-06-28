@@ -1,0 +1,43 @@
+quiz1
+```{r}
+library(datasets)
+require(plyr)
+data(iris)
+
+s = split(iris, iris$Species)
+s = laply(s, function(x) colMeans(x[, c('Sepal.Length', 'Sepal.Width')]))
+#iris
+s
+```
+
+
+quiz2
+```{r}
+#apply(iris, 2 ,mean)
+apply(iris[, 1:4], 2, mean)
+```
+
+quiz3
+How can one calculate the average miles per gallon (mpg) by number of cylinders in the car (cyl)?
+```{r}
+data(mtcars)
+#summary(mtcars)
+tapply(mtcars$mpg, mtcars$cyl, mean)
+with(mtcars, tapply(mpg, cyl, mean))
+sapply(split(mtcars$mpg, mtcars$cyl), mean)
+```
+quiz4
+```{r}
+s = sapply(split(mtcars$hp, mtcars$cyl), mean)
+result = s[3] - s[1]
+result
+
+```
+
+quiz5
+run debug(ls)
+```{r}
+#debug(ls)
+#ls()
+```
+
