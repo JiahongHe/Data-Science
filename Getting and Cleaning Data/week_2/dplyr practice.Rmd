@@ -1,0 +1,63 @@
+
+```{r}
+head(mtcars)
+```
+```{r}
+library(reshape2)
+mtcars$carname = rownames(mtcars)
+carMelt = melt(mtcars, id=c('carname', 'gear', 'cyl'), measurel.vars=c('mpg', 'hp'))
+head(carMelt, n = 20)
+tail(carMelt, n = 20)
+summary(mtcars)
+summary(carMelt)
+```
+```{r}
+#
+mtcars = mtcars[, !names(mtcars) %in% c("carnames", "carname")]
+mtcars[order("gear"), ]
+```
+
+```{r}
+library(dplyr)
+
+chicago = readRDS("dataset/chicago.rds")
+dim(chicago)
+str(chicago)
+
+```
+
+```{r}
+
+#select function, 
+print(head(select(chicago, tmpd:o3tmean2)))
+#-(1:2) inverted selection
+print(head(select(chicago, -(tmpd:o3tmean2))))
+```
+```{r}
+#filter
+print(head(subset(chicago, c(chicago$pm25tmean2 > 20 & chicago$tmpd > 80))))
+print(head(filter(chicago, pm25tmean2 > 20 & tmpd > 80)))
+```
+```{r}
+#arrange
+print(head(arrange(chicago, date)))
+print(head(arrange(chicago, desc(date))))
+```
+```{r}
+#rename
+print(head(rename(chicago, dewpoint=dptp, pm25=pm25tmean2)))
+```
+
+```{r}
+#mutate, create a new variable
+print(tail(mutate(chicago, pm25detrend=pm25tmean2-mean(pm25tmean2, na.rm=TRUE))))
+print(head(na.omit(select(mutate(chicago, pm25detrend=pm25tmean2-mean(pm25tmean2, na.rm=TRUE)), pm25tmean2, pm25detrend))))
+```
+```{r}
+#group_by
+chicago_grouped = mutate(chicago, tempcat = factor(1*(tmpd > 80), labels = c("cold","hot")))
+#head(chicago_grouped)
+chicago_grouped = group_by(chicago_grouped, tempcat)
+summary(chicago_grouped)
+```
+

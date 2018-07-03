@@ -1,0 +1,152 @@
+grep and grepl
+```{r}
+data = read.csv("../week_3/datasets/educational.csv")
+data
+```
+
+```{r}
+# use grep to find "USA" in the CountryCode variable, which is the 220th element of the variable CountryCode.
+grep("USA", data$CountryCode)
+grep("USA", data$CountryCode, value = TRUE) # value = TRUE will return the value instead of the index
+# grepl returns a boolean list
+#grepl("USA", data$CountryCode)
+table(grepl("USA", data$CountryCode))
+```
+```{r}
+library(stringr)
+string = "Adelaide"
+# nchar returns the number of chararacters in a string
+nchar(string)
+
+# substr substring. both positions are inclusive
+substr(string, 1, 7)
+
+# paste paste 2 strings together. string + "Clemen" does not work in R
+paste(string, "Clemens", sep = "'sep'") # sep is set default to " "
+paste0(string, "Clemens") # equals to paste(sep="")
+str_trim("jeffff      ") # remove the space at the end of the string
+
+```
+-------------------------------------------------------------
+Metacharacters:
+
+"^" represents the beginning of a line.(only at the beginning)
+"$" represents the end of a line.
+[Bb][Uu][Ss][Hh] would match all forms of the word'bush'.(BUSH, bUSH, bUSh, etc)
+combined:
+^[Ii] am would match all "I am" and "i am" that are at the begining of a line.
+
+also can represent with a range:
+[0-9] represents a range from 0 to 9
+[a-zA-Z] represents all the letters with both their uppercase form and lowercase form.
+^[0-9][a-zA-Z] would match any line that begins with a number followed by a letter.
+eg: 
+7th inning stretch
+2nd half soon to begin.
+3am - can't sleep, too hot still
+
+when ^ used in the [], it means NOT. 
+[^?.]& would match all the lines that DOES NOT end with a "?" or "."
+
+"." means any character. so "9.11" would match "9-11", "9/11", "203.169.114.66", "9:11:46",etc.
+
+"|" means alternative. fire|flood would match words that are either "fire" or "flood"
+and it can be used for multiple wrods: fire|flood|thunder|tornado
+combined:
+^[Gg]ood|[Bb]ad would match lines that either begin with "Good" or "good", or "Bad" or "bad" anywhere in the line, as [Bb]ad does not has a "^" at the begining. ^([Gg]ood|[Bb]ad) would work for both words.
+
+"()?" means the item in the () is optional, lines match not necessarily have it.
+[Gg]eorge ([Ww]\.)? [Bb]ush would match "George Bush", "George W. Bush", etc. "\" is used because "." is a reserved character in this expression. "\" means don't consider "." to be a metacharacter, consider it literally.
+
+* and +
+* means repeated any number, including empty parenthesis.
+(.*) would match any thing with a "()" outside. eg: (24, m, Germany) () (he means older men)
++ means at least one.
+
+[0-9]+(.*)[0-9]+ means anything begins with a number, followed by anything (of any length), and followed by a number again.
+eg: 2 and 3.  720 MP battallion, 42nd birgade
+
+^[Bb]ush( +[^ ]+ +){1,5} debate
+begins with "Bush"/"bush". ( +[^ ]+ +) means " " followed by something other than a " " and followed by another " ", this pattern can repeat from 1 to 5 times, and followed by "debate". + here means at least one. " +" means at least one space.
+eg:
+Bush has historically win all major debates he's done.
+in my view, Bush doesn't need these debates.
+in the {}:
+m,n means at least m matches but no more than n matches.
+m means exactly m matches.
+m, means at least m matches. (no upper limit)
+
+Greediness:
+^s[.*]s would find the line that begins and ends with an "s". yet it would try to maxiumize the number of elements between "s" and "s".
+^s[.*?]s$ would turn off the grediness.
+
+------------------------------------------------------------
+
+Date
+```{r}
+d2 = Sys.Date() # returns the date
+d2
+class(d2)
+```
+
+%d = day as a number (0-31)
+
+%a = abbreviated weekday
+%A = unabbreviated weekday
+
+%m = month as a number (0-12)
+%b = abbreviated month
+%B = unabbreviated month
+
+%y = 2-digit year
+%Y = 4-digit year
+```{r}
+# specify the format of date
+format(d2, "%a %b %y")
+format(d2, "%A %B %Y")
+format(d2, "%d %b %Y")
+format(d2, "%a %d %b %Y")
+```
+
+create dates
+```{r}
+x = c("3mar1995", "2jan1999", "22mar1995")
+x = as.Date(x, "%d %b %Y") # specifies the order of the original data
+x
+
+# can apply mathematical operations
+x[1] - x[2]
+as.numeric(x[1] - x[2])
+```
+```{r}
+weekdays(x[1])
+months(x[2])
+julian(x[3]) # number of days since origin date.
+```
+
+lubridate
+```{r}
+library(lubridate)
+
+ymd("20130301") # year-month-day
+mdy("08241995 GMT") # moth-day-year
+mdy_hms("08241995231055 GMT") # _hms: hour minites seconds
+mdy_hms("08241995231055 GMT", tz = "Pacific/Auckland")
+?Sys.timezone # check out the timezone document
+wday(x[1], label = TRUE) # wday() is from lubridate package. label means the actual day of the week. (or you will get a number).
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

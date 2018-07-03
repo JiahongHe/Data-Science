@@ -1,0 +1,110 @@
+quiz1
+
+```{r}
+if(!file.exists("datasets")) {
+  dir.create("datasets")
+}
+fileUrl = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv"
+download.file(fileUrl, destfile="datasets/IdahoHousing.csv")
+```
+
+```{r}
+housingData = read.csv("datasets/IdahoHousing.csv")
+str(housingData)
+```
+
+What are the first 3 values that result?
+```{r}
+agricultureLogical = housingData$ACR == 3 & housingData$AGS == 6
+which(agricultureLogical)
+```
+
+quiz2
+```{r}
+if(!file.exists("datasets")) {
+  dir.create("datasets")
+}
+fileUrl = "https://d396qusza40orc.cloudfront.net/getdata%2Fjeff.jpg"
+download.file(fileUrl, destfile="datasets/jeff.jpg")
+```
+What are the 30th and 80th quantiles of the resulting data?
+```{r}
+library(jpeg)
+pic = readJPEG("datasets/jeff.jpg", native = TRUE)
+#summary(pic)
+quantile(pic, probs = c(0.3, 0.8))
+```
+
+quiz3
+```{r}
+if(!file.exists("datasets")) {
+  dir.create("datasets")
+}
+fileUrl1 = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv"
+fileUrl2 = "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv"
+download.file(fileUrl1, destfile="datasets/GrossDomesticProduct.csv")
+download.file(fileUrl2, destfile="datasets/educational.csv")
+```
+
+```{r}
+GrossDomesticProduct = read.csv("datasets/GrossDomesticProduct.csv", skip = 5, header = FALSE, nrows = 231)
+Educational = read.csv("datasets/educational.csv")
+
+head(GrossDomesticProduct)
+tail(GrossDomesticProduct)
+head(Educational)
+```
+```{r}
+library(dplyr)
+
+GrossDomesticProduct = select(GrossDomesticProduct, V1, V2, V4, V5)
+head(GrossDomesticProduct)
+```
+```{r}
+colnames(GrossDomesticProduct) = c("CountryCode", "Ranking", "Long.Name", "Economy")
+#GrossDomesticProduct[, "Economy,US dollars"] = as.numeric(GrossDomesticProduct[, "Economy"])
+dim(GrossDomesticProduct)
+head(GrossDomesticProduct)
+tail(GrossDomesticProduct)
+```
+merge these 2 datasets
+```{r}
+dim(GrossDomesticProduct)
+dim(Educational)
+Merged = merge(GrossDomesticProduct, Educational, by.x = "CountryCode", by.y = "CountryCode")
+head(Merged)
+dim(Merged)
+```
+
+```{r}
+
+Merged = arrange(Merged, desc(Ranking))
+Merged$Economy = as.character(Merged$Economy)
+Merged$Economy = gsub(",", "", Merged$Economy)
+Merged$Economy = as.numeric(Merged$Economy)
+tail(Merged, 55)
+```
+
+quiz4
+```{r}
+grouped = group_by(Merged, Income.Group)
+summarize(grouped, avgRanking = mean(Ranking, na.rm = TRUE))
+```
+
+quiz5
+```{r}
+quan = quantile(Merged$Economy, probs = c(0.2, 0.4, 0.6, 0.8, 1.0), na.rm = TRUE)
+quan[2]
+Merged$GDPsplit = split(Merged, cut(Merged$Economy, 5))
+```
+
+
+```{r}
+sample = Merged$Economy
+sample = as.character(sample)
+gsub(",", "", sample)
+```
+
+
+
+

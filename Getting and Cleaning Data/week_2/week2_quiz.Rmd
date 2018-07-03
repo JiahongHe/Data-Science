@@ -1,0 +1,31 @@
+
+```{r}
+library(httr)
+url = 'http://biostat.jhsph.edu/~jleek/contact.html'
+html2 = GET(url)
+conten2 = content(html2, asText = TRUE)
+print(content2)
+```
+
+```{r}
+code10 = '<meta name="Distribution" content="Global" />'
+code20 = '<script type="text/javascript">'
+code30 = '  })();'
+code100 = '				<ul class="sidemenu">'
+
+nchar(code10)
+nchar(code20)
+nchar(code30)
+nchar(code100)
+```
+
+```{r}
+#install.packages("readr")
+library(readr)
+x = read_fwf(file = 'dataset/getdata-wksst8110.for', skip=4, fwf_widths(c(12, 7, 4, 9, 4, 9, 4, 9, 4)))
+colnames(x) = c('Week', 'SST1', 'SSTA1', 'SST2', 'SSTA2', 'SST3', 'SSTA3', 'SST4', 'SSTA4')
+head(x)
+sum_4th = sum(x$SST2)
+print(sum_4th)
+```
+

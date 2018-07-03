@@ -1,0 +1,60 @@
+quiz1
+```{r}
+data = read.csv("../week_3/datasets/IdahoHousing.csv")
+head(data)
+```
+
+```{r}
+str(data)
+dim(data)
+```
+the value of the 123th element
+```{r}
+strsplit(names(data), "wgtp")[123]
+```
+quiz2
+```{r}
+library(dplyr)
+
+data = read.csv("../week_3/datasets/GrossDomesticProduct.csv", skip = 5, header = FALSE, nrows = 190)
+data = select(data, V1, V2, V4, V5)
+colnames(data) = c("CountryCode", "Ranking", "LongName", "GDP")
+tail(data)
+```
+```{r}
+data$GDP = as.character(data$GDP)
+data$GDP = gsub(",", "", data$GDP)
+data$GDP = as.numeric(data$GDP)
+head(data)
+mean(data$GDP)
+```
+quiz3
+```{r}
+data$LongName = as.character(data$LongName)
+grep("^United", data$LongName)
+```
+
+quiz4
+```{r}
+df = read.csv("../week_3/datasets/Educational.csv")
+head(df)
+```
+
+```{r}
+Merged = merge(data, df, by.x = "CountryCode", by.y = "CountryCode")
+Merged = arrange(Merged, desc(Ranking))
+head(Merged)
+colnames(Merged)
+```
+```{r}
+library(quantmod)
+amzn = getSymbols("AMZN", auto.assign = FALSE)
+sampleTimes = index(amzn)
+```
+
+```{r}
+length(sampleTimes)
+length(sampleTimes[sampleTimes <= "2012-12-31" & sampleTimes >= "2012-01-01"])
+table((weekdays(sampleTimes[sampleTimes <= "2012-12-31" & sampleTimes >= "2012-01-01"]) == "Monday"))
+```
+
