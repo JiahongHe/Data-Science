@@ -1,0 +1,72 @@
+Law of Large Numbers
+
+```{r}
+# as we collect more and more data, the estimation would be closer to the estimated value
+n = 1000
+means = cumsum(rnorm(n)) / (1:n) # cumsum: accumulative sum
+plot(means, xlab = "Number of Obs", ylab = "Cumulative Mean") 
+# we can see from the plot that, as the number of samples goes up, the mean is becoming closer and closer to its' true value, which is 0.
+```
+
+```{r}
+# example: coin flip
+means = cumsum(sample(0:1, n, replace = TRUE)) / (1:n)
+plot(means, xlab = "Number of Obs", ylab = "Cumulative Mean")
+```
+
+the Central Limit Theorem
+The distribution of averages of iid samples (properly normalized) becomes that of a standard normal as the sample size increases.
+```{r}
+means = cumsum(sample(1:6, n, replace = TRUE)) / (1:n)
+hist(means)
+```
+
+```{r}
+n = 100
+pvals = seq(0.1, 0.9, by = 0.01)
+num_sim = 1000
+coverage = sapply(pvals, function(p) {
+  phats = rbinom(num_sim, prob = p, size = n) / n
+  ll = phats - qnorm(0.975) * sqrt(phats * (1 - phats) / n)
+  ul = phats + qnorm(0.975) * sqrt(phats * (1 - phats) / n)
+  mean(ll < p & ul > p)
+})
+
+plot(pvals, coverage,  type = 'l')
+```
+
+```{r}
+# Say a nuclear pump failed 5 times out of 94.32 dats, give a 95% confidence interval for the failure rate per day.
+x = 5
+t = 94.32
+lambda = x / t
+round (lambda + c(-1, 1) * qnorm(0.975) * sqrt(lambda / t), 3)
+```
+
+```{r}
+poisson.test(x, T = 94.32, conf.level = 0.95)
+```
+
+```{r}
+n = 100
+lambdavals = seq(0.005, 1, by = 0.01)
+num_sim = 1000
+t = 100
+coverage = sapply(lambdavals, function(lambda) {
+  lhats = rpois(num_sim, lambda = lambda * t) / t
+  ll = lhats - qnorm(0.975) * sqrt(lhats / t)
+  ul = lhats + qnorm(0.975) * sqrt(lhats / t)
+  mean(ll < lambda & ul > lambda)
+})
+
+plot(lambdavals, coverage,  type = 'l')
+```
+
+Summary
+1. The LLN states that the averages of iid samples converge to the population means that they are estimating.
+2. The CLT states that the averages are approximately normal, with distributions.
+   - centered at the population mean.
+   - with standard deviation equal to the standard error of the mean.
+   - CLT gives no guarantee that n is large enough.
+3. Confidence intervals get wider as the coverage increases.
+

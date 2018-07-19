@@ -1,0 +1,3 @@
+"0","# example: coin flip"
+"0","means = cumsum(sample(0:1, n, replace = TRUE)) / (1:n)"
+"0","plot(means, xlab = ""Number of Obs"", ylab = ""Cumulative Mean"")"

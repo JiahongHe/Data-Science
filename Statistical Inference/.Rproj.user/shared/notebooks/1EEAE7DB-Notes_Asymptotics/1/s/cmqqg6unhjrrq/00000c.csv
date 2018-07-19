@@ -1,0 +1,2 @@
+"0","means = cumsum(sample(1:6, n, replace = TRUE)) / (1:n)"
+"0","hist(means)"

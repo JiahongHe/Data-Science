@@ -1,0 +1,6 @@
+"0","# what number would represent one where 75% of the population would be less"
+"0","qnorm(0.75, mean = 1020, sd = 50)"
+"1","[1]"
+"1"," 1053.724"
+"1","
+"

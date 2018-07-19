@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1531033472839.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3951055039",
+    "id" : "79DEB39E",
+    "lastKnownWriteTime" : 1531922319,
+    "last_content_update" : 1531926185101,
+    "path" : "~/Desktop/SelfLearning/Coursera/Data Science/Statistical Inference/Swirl.Rmd",
+    "project_path" : "Swirl.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "26,18",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

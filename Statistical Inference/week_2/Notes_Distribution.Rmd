@@ -1,0 +1,79 @@
+the Bernoulli Distribution
+
+P(X = x) = p^x (1 - p)^(1 - x)
+mean: p
+variance: p(1 - p)
+The binomial random variable is the sum of a bunch of iid Bernoulli random variables.
+So it can be seen as the total number of heads on the flips of a potentially biased coin.
+Let X_1, X_2, X_n be iid Bernoulli(p), then _X = sum(X_i) is a binomial random variable. 
+P(_X = x) = C_n_x p^x(1 -p)^(1 - x). (C_n_x means n choose x, which is n!/x!(n-x)!)
+
+```{r}
+# Example: What's the probability of senven a family has 8 children and 7 of them are girls with no twins, if each gender has an independt 50% probability for each birth.
+choose(8, 7) * 0.5^8 + choose(8, 8) * 0.5^8
+
+pbinom(6, size = 8, prob = 0.5, lower.tail = FALSE)
+```
+
+the Normal Distribution
+
+the area whtin a std (mean - std, mean + std) of a normal distribution is 68%
+(mean - 2std, mean + 2std) is 95%
+(mean - 3std, mean + 3std) is 99%
+
+is X~N(mean, std^2), then 
+Z = X - mean / std ~ N(0, 1)
+if Z is standard normal, then
+X = mean + Z * std ~ N(mean, std^2)
+
+For a standard Normal Distribution
+-2.33, -1.96, -1.645, -1.28 are the 1st, 2.5th, 5th, 10th percentiles of the distribution respectively.
+1.28, 1.645, 1.96 and 2.33 are the 90th, 95th, 97.5th, 100th percentiles of the distribution respectively.
+for a non standard normal distribution, 90th percentile is Mean + 1.28*std.
+```{r}
+# Example: 95th percentile
+qnorm(0.95, mean = 5, sd = 2)
+5 + 2 * 1.645
+
+qnorm(0.05, mean = 0, sd = 1, lower.tail = FALSE) # lower.tail = FALSE means we want the upper part of the distribution
+```
+ 
+```{r}
+# assume a popilation with a mean of 1020, std 50, what's the porbability of getting a sample larger than 1160
+pnorm(1160, mean = 1020, sd = 50, lower.tail = FALSE) # lower.tail = FALSE means we want the probability of a sample larger than 1160.
+```
+ 
+```{r}
+# what number would represent one where 75% of the population would be less
+qnorm(0.75, mean = 1020, sd = 50)
+```
+ 
+ the Poisson Distribution
+ Used to model counts
+ P(X = x | lambda) = (lambda^x) * (e^(-lambda)) / x!
+ mean = lambda
+ variance = lambda
+ 
+ X ~ Poissson(lambda t) where
+ lambda = E[X/t], is the expected count per unit of time.
+ t is the total monitoring time
+ 
+ Example:
+ Them number of people showing up at a bus stop is Poisson with a mean of 2.5 per hour.
+```{r}
+# If watching the bus stop for 4 hours, what's the probability that 3 or 4 people show up for the whole time?
+ppois(3, lambda = 2.5 * 4)
+```
+ 
+ When n is large and p is small, the Poisson distribution is an accurate approximation to the bionomial distribution.
+ X ~ Poisson(n, p)
+ lambda = n*p
+ n gets large, p gets small
+```{r}
+pbinom(2, size = 500, prob = 0.01)
+```
+```{r}
+ppois(2, lambda = 500 * 0.01)
+```
+ 
+ 

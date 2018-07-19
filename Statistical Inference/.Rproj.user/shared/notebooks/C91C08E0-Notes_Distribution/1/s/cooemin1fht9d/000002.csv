@@ -1,0 +1,6 @@
+"0","# If watching the bus stop for 4 hours, what's the probability that 3 or 4 people show up for the whole time?"
+"0","ppois(3, lambda = 2.5 * 4)"
+"1","[1]"
+"1"," 0.01033605"
+"1","
+"

@@ -1,0 +1,4 @@
+"0","# as we collect more and more data, the estimation would be closer to the estimated value"
+"0","n = 1000"
+"0","means = cumsum(rnorm(n)) / (1:n) # cumsum: accumulative sum"
+"0","plot(means, xlab = ""Number of Obs"", ylab = ""Cumulative Mean"") "

@@ -1,0 +1,67 @@
+Variance
+
+Assume that a coin has a probability of heads of p
+E[X] = 0 * (1 - p) + 1 * p = p
+E[X^2] = E[X] = p
+Var[X] = E[X^2] - E[X]^2 = p - p^2 = p(1-p)
+
+S^2 = sum(X_i - mean(X))^2 / (n -1)
+
+sample mean itself is a random variable with mean exact E[X] and std sigma^2 / n
+let _X = mean(X)
+_X = u
+Var(_X) = sigma^2 / n
+```{r}
+# simulation example: Normal Distribution
+num_sim = 1000
+n = 10
+
+sd(apply(matrix(rnorm(num_sim * 10), num_sim), 1, mean))
+1 / sqrt(n)
+```
+
+```{r}
+# simulation example: Uniform Distribution
+num_sim = 1000
+n = 10
+
+sd(apply(matrix(runif(num_sim * n), num_sim), 1, mean))
+1/sqrt(12 * n)
+```
+
+```{r}
+# simulation example: Poisson Distribution
+num_sim = 1000
+n = 10
+
+sd(apply(matrix(rpois(num_sim * n, 4), num_sim), 1, mean)) #n samples of poisson(4) has a std of 2/sqrt(n)
+2/sqrt(n)
+```
+
+```{r}
+# simulation example: Coin Flip
+num_sim = 1000
+n = 10
+
+sd(apply(matrix(sample(0:1, num_sim * n, replace = TRUE), num_sim), 1, mean)) #n samples of poisson(4) has a std of 2/sqrt(n)
+1/(2 * sqrt(n))
+```
+
+```{r}
+# Data Example
+library(UsingR)
+data(father.son)
+x = father.son$sheight
+n = length(x)
+
+round(c(var(x), var(x)/n, sd(x), sd(x)/sqrt(n)), 2) # round the numbers to 2 decimals.
+```
+
+summary:
+1. The sample variance estimates the population variance.
+2. The distribution of the sample variance is centered at the population variance (unbiased)
+3. Gets more concentrated as more data is collected. 
+4. The variance of the sample mean is the population variance divided by the number of samples n. And the root of this is called     standard error.  
+
+
+
